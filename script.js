@@ -1,8 +1,7 @@
-//Query Selectors
-let questionContainer = document.querySelector('#question');
-let answerOneBtn = document.querySelector('#answerOne');
-let answerTwoBtn = document.querySelector('#answerTwo');
-let answerThreeBtn = document.querySelector('#answerThree');
+//Get Elements from HTML Document
+let questionContainer = document.getElementById('question');
+let answersContainer = document.getElementById('answerChoices');
+let feedbackContainer = document.getElementById('feedback');
 
 //Questions Array
 const questions = [
@@ -15,40 +14,88 @@ const questions = [
 let correct = 0;
 let wrong = 0;
 
-//Game Main Function
-function startQuiz() {
-    //Set First Question and Answers
-    questionContainer.textContent = questions[0].question;
-    answerOneBtn.textContent = questions[0].answers[0];
-    answerTwoBtn.textContent = questions[0].answers[1];
-    answerThreeBtn.textContent = questions[0].answers[2];
+//Set starting page
+let initialQuestion = document.createElement('p');
+let btnStart = document.createElement('button');
+initialQuestion.textContent = 'Click Start if you would like to play!';
+btnStart.textContent = 'Start';
+questionContainer.append(initialQuestion, btnStart);
 
-    //Store user's answer
-    let userChoice = '';
-
-    if (userChoice === 'Paris') {
-        correct++;
-        window.alert('You are correct');
-    } else {
-        wrong++;
-        window.alert('You are wrong');
+//Event listener to start game
+btnStart.addEventListener('click', 
+    //Game Main Function
+    function startQuiz() {
+        //Set first question
+        questionContainer.textContent = questions[0].question;
+        //Set first answers
+        questions[0].answers.forEach((answer) => {
+            let btnAnswer = document.createElement('button');
+            btnAnswer.textContent = answer;
+            answersContainer.appendChild(btnAnswer);
+        });
+        //Check user's answer
+        answersContainer.addEventListener('click', (event) => {
+            if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Paris') {
+                correct++;
+                feedbackContainer.textContent = 'You are correct!';
+            } else {
+                wrong++;
+                feedbackContainer.textContent = 'You are wrong';
+            }
+            //Next Question
+            setTimeout(() => {
+                feedbackContainer.textContent = '';
+                answersContainer.textContent = '';
+                //Set second question
+                questionContainer.textContent = questions[1].question;
+                //Set second answers
+                questions[1].answers.forEach((answer) => {
+                    let btnAnswer = document.createElement('button');
+                    btnAnswer.textContent = answer;
+                    answersContainer.appendChild(btnAnswer);
+                });
+                //Check user's answer
+                answersContainer.addEventListener('click', (event) => {
+                    if (event.target.tagName === 'BUTTON' && event.target.textContent === 'JavaScript') {
+                        correct++;
+                        feedbackContainer.textContent = 'You are correct!';
+                    } else {
+                        wrong++;
+                        feedbackContainer.textContent = 'You are wrong';
+                    }
+                    //Next Question
+                    setTimeout(() => {
+                        feedbackContainer.textContent = '';
+                        answersContainer.textContent = '';
+                        //Set third question
+                        questionContainer.textContent = questions[2].question;
+                        //Set second answers
+                        questions[2].answers.forEach((answer) => {
+                            let btnAnswer = document.createElement('button');
+                            btnAnswer.textContent = answer;
+                            answersContainer.appendChild(btnAnswer);
+                        });
+                        //Check user's answers
+                        answersContainer.addEventListener('click', (event) => {
+                            if (event.target.tagName === 'BUTTON' && event.target.textContent === 4) {
+                                correct++;
+                                feedbackContainer.textContent = 'You are Correct';
+                            } else {
+                                wrong++;
+                                feedbackContainer.textContent = 'You are wrong';
+                            }
+                            //Set Total Stats
+                            setTimeout(() => {
+                                answersContainer.textContent = '';
+                                questionContainer.textContent = 'Thanks for playing!';
+                                feedbackContainer.textContent = `Here are your stats:
+                                Correct: ${correct}
+                                Wrong: ${wrong}`;
+                            }, 1000);
+                        });
+                    }, 1000);
+                });
+            }, 1000);
+        });
     }
-
-    window.alert(`
-        Stats:
-        Correct: ${correct}
-        Wrong: ${wrong}
-    `);
-
-    
-    //Ask to play again
-    let playagain = window.confirm('Would you like to play again?');
-    if(playagain) {
-        startQuiz();
-    } else {
-        return;
-    }
-};
-
-//Start Quiz
-startQuiz();
+);
