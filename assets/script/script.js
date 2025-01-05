@@ -8,6 +8,10 @@ const questions = [
     { question: "What is the capital of France?", answers: ["Paris", "Berlin", "Madrid"], correct: 0 },
     { question: "Which language runs in the browser?", answers: ["Python", "JavaScript", "C++"], correct: 1 },
     { question: "What is 2 + 2?", answers: ["3", "4", "5"], correct: 1 },
+    { question: 'What is 5 x 5?', answers: [30, 100, 25], correct: 2},
+    { question: 'Which pokemon is yellow and most famous?', answers: ['Yellow Bunny', 'Charmeleon', 'Pikachu'], correct: 2},
+    { question: 'Which ice skates have a toe pick in front?', answers: ['Rocket Skates', 'Figure Skates', 'Hockey Skates'], correct: 1},
+    { question: 'How did the cell phone ask his girlfriend to marry him?', answers: ['He gave her a ring'], correct: 0}
 ];
 //Questions Index
 let index = 0;
@@ -69,10 +73,23 @@ btnStart.addEventListener('click',
             } else if (questionContainer.textContent === 'Which language runs in the browser?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'JavaScript') {
                 correct++;
                 feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'What is 2 + 2' && event.target.tagName === 'BUTTON' && event.target.textContent === 4) {
+            } else if (questionContainer.textContent === 'What is 2 + 2?' && event.target.tagName === 'BUTTON' && event.target.textContent === "4") {
                 correct++;
                 feedbackContainer.textContent = 'Correct!';
-            } else {
+            } else if (questionContainer.textContent === 'What is 5 x 5?' && event.target.tagName === 'BUTTON' && event.target.textContent === 25) {
+                correct++;
+                feedbackContainer.textContent = 'Correct!';
+            } else if (questionContainer.textContent === 'Which pokemon is yellow and most famous?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Pikachu') {
+                correct++;
+                feedbackContainer.textContent = 'Correct!';
+            } else if (questionContainer.textContent === 'Which ice skates have a toe pick in front?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Figure Skates') {
+                correct++;
+                feedbackContainer.textContent = 'Correct!';
+            } else if (questionContainer.textContent === 'How did the cell phone ask his girlfriend to marry him?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'He gave her a ring') {
+                correct++;
+                feedbackContainer.textContent = 'Correct!';
+            }
+            else {
                 wrong++;
                 feedbackContainer.textContent = 'Wrong';
             }
