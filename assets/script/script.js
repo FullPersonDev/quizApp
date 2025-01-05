@@ -76,10 +76,10 @@ btnStart.addEventListener('click',
                 wrong++;
                 feedbackContainer.textContent = 'Wrong';
             }
+            //Set new question after checking answer
             setTimeout(() => {
                 newQuestion();
             }, 1000);
-            console.log(`Correct: ${correct}. Wrong: ${wrong}`);
         });
     }
 );
