@@ -9,6 +9,8 @@ const questions = [
     { question: "Which language runs in the browser?", answers: ["Python", "JavaScript", "C++"], correct: 1 },
     { question: "What is 2 + 2?", answers: ["3", "4", "5"], correct: 1 },
 ];
+//Questions Index
+let index = 0;
 
 //Stats Variables
 let correct = 0;
@@ -21,81 +23,63 @@ initialQuestion.textContent = 'Click Start if you would like to play!';
 btnStart.textContent = 'Start';
 questionContainer.append(initialQuestion, btnStart);
 
-//Event listener to start game
-btnStart.addEventListener('click', 
-    //Game Main Function
-    function startQuiz() {
-        //Set first question
-        questionContainer.textContent = questions[0].question;
-        //Set first answers
-        questions[0].answers.forEach((answer) => {
+//Helper function to display new question
+function newQuestion() {
+    if (index < questions.length) {
+        //Clear out content
+        questionContainer.textContent = '';
+        answersContainer.textContent = '';
+        feedbackContainer.textContent = '';
+        //Set question
+        questionContainer.textContent = questions[index].question;
+        //Set answers
+        questions[index].answers.forEach((answer) => {
             let btnAnswer = document.createElement('button');
             btnAnswer.textContent = answer;
             answersContainer.appendChild(btnAnswer);
         });
+    } else {
+        questionContainer.textContent = 'Thanks for playing!';
+        answersContainer.textContent = '';
+        feedbackContainer.textContent = `
+        Here are your stats: 
+        Correct: ${correct} 
+        Wrong: ${wrong}.`
+    };
+};
+
+//Event listener to start game
+btnStart.addEventListener('click', 
+    //Game function
+    function startQuiz() {
+        //Clear out content
+        questionContainer.textContent = '';
+        answersContainer.textContent = '';
+        feedbackContainer.textContent = '';
+
+        //Run helper function to display new question
+        newQuestion();
+
         //Check user's answer
         answersContainer.addEventListener('click', (event) => {
-            if (event.target.tagName === 'BUTTON' && event.target.textContent === 'Paris') {
+            index++;
+            if (questionContainer.textContent === 'What is the capital of France?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Paris') {
                 correct++;
-                feedbackContainer.textContent = 'You are correct!';
+                feedbackContainer.textContent = 'Correct!';
+            } else if (questionContainer.textContent === 'Which language runs in the browser?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'JavaScript') {
+                correct++;
+                feedbackContainer.textContent = 'Correct!';
+            } else if (questionContainer.textContent === 'What is 2 + 2' && event.target.tagName === 'BUTTON' && event.target.textContent === 4) {
+                correct++;
+                feedbackContainer.textContent = 'Correct!';
             } else {
                 wrong++;
-                feedbackContainer.textContent = 'You are wrong';
+                feedbackContainer.textContent = 'Wrong';
             }
-            //Next Question
             setTimeout(() => {
-                feedbackContainer.textContent = '';
-                answersContainer.textContent = '';
-                //Set second question
-                questionContainer.textContent = questions[1].question;
-                //Set second answers
-                questions[1].answers.forEach((answer) => {
-                    let btnAnswer = document.createElement('button');
-                    btnAnswer.textContent = answer;
-                    answersContainer.appendChild(btnAnswer);
-                });
-                //Check user's answer
-                answersContainer.addEventListener('click', (event) => {
-                    if (event.target.tagName === 'BUTTON' && event.target.textContent === 'JavaScript') {
-                        correct++;
-                        feedbackContainer.textContent = 'You are correct!';
-                    } else {
-                        wrong++;
-                        feedbackContainer.textContent = 'You are wrong';
-                    }
-                    //Next Question
-                    setTimeout(() => {
-                        feedbackContainer.textContent = '';
-                        answersContainer.textContent = '';
-                        //Set third question
-                        questionContainer.textContent = questions[2].question;
-                        //Set second answers
-                        questions[2].answers.forEach((answer) => {
-                            let btnAnswer = document.createElement('button');
-                            btnAnswer.textContent = answer;
-                            answersContainer.appendChild(btnAnswer);
-                        });
-                        //Check user's answers
-                        answersContainer.addEventListener('click', (event) => {
-                            if (event.target.tagName === 'BUTTON' && event.target.textContent === 4) {
-                                correct++;
-                                feedbackContainer.textContent = 'You are Correct';
-                            } else {
-                                wrong++;
-                                feedbackContainer.textContent = 'You are wrong';
-                            }
-                            //Set Total Stats
-                            setTimeout(() => {
-                                answersContainer.textContent = '';
-                                questionContainer.textContent = 'Thanks for playing!';
-                                feedbackContainer.textContent = `Here are your stats:
-                                Correct: ${correct}
-                                Wrong: ${wrong}`;
-                            }, 1000);
-                        });
-                    }, 1000);
-                });
+                newQuestion();
             }, 1000);
+            console.log(`Correct: ${correct}. Wrong: ${wrong}`);
         });
     }
 );
