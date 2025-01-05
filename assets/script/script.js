@@ -8,7 +8,7 @@ const questions = [
     { question: "What is the capital of France?", answers: ["Paris", "Berlin", "Madrid"], correct: 0 },
     { question: "Which language runs in the browser?", answers: ["Python", "JavaScript", "C++"], correct: 1 },
     { question: "What is 2 + 2?", answers: ["3", "4", "5"], correct: 1 },
-    { question: 'What is 5 x 5?', answers: [30, 100, 25], correct: 2},
+    { question: 'What is 5 x 5?', answers: ['30', '100', '25'], correct: 2},
     { question: 'Which pokemon is yellow and most famous?', answers: ['Yellow Bunny', 'Charmeleon', 'Pikachu'], correct: 2},
     { question: 'Which ice skates have a toe pick in front?', answers: ['Rocket Skates', 'Figure Skates', 'Hockey Skates'], correct: 1},
     { question: 'How did the cell phone ask his girlfriend to marry him?', answers: ['He gave her a ring'], correct: 0}
@@ -45,10 +45,12 @@ function newQuestion() {
     } else {
         questionContainer.textContent = 'Thanks for playing!';
         answersContainer.textContent = '';
-        feedbackContainer.textContent = `
-        Here are your stats: 
-        Correct: ${correct} 
-        Wrong: ${wrong}.`
+        feedbackContainer.textContent = '';
+        let pFeedbackEl1 = document.createElement('p');
+        let pFeedbackEl2 = document.createElement('p');
+        feedbackContainer.append(pFeedbackEl1, pFeedbackEl2);
+        pFeedbackEl1.textContent = `Here are your stats:`;
+        pFeedbackEl2.textContent = `Correct: ${correct} | Wrong: ${wrong}`;
     };
 };
 
@@ -73,10 +75,10 @@ btnStart.addEventListener('click',
             } else if (questionContainer.textContent === 'Which language runs in the browser?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'JavaScript') {
                 correct++;
                 feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'What is 2 + 2?' && event.target.tagName === 'BUTTON' && event.target.textContent === "4") {
+            } else if (questionContainer.textContent === 'What is 2 + 2?' && event.target.tagName === 'BUTTON' && event.target.textContent === '4') {
                 correct++;
                 feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'What is 5 x 5?' && event.target.tagName === 'BUTTON' && event.target.textContent === 25) {
+            } else if (questionContainer.textContent === 'What is 5 x 5?' && event.target.tagName === 'BUTTON' && event.target.textContent === '25') {
                 correct++;
                 feedbackContainer.textContent = 'Correct!';
             } else if (questionContainer.textContent === 'Which pokemon is yellow and most famous?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Pikachu') {
