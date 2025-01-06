@@ -11,7 +11,8 @@ const questions = [
     { question: 'What is 5 x 5?', answers: ['30', '100', '25'], correct: 2},
     { question: 'Which pokemon is yellow and most famous?', answers: ['Yellow Bunny', 'Charmeleon', 'Pikachu'], correct: 2},
     { question: 'Which ice skates have a toe pick in front?', answers: ['Rocket Skates', 'Figure Skates', 'Hockey Skates'], correct: 1},
-    { question: 'How did the cell phone ask his girlfriend to marry him?', answers: ['He gave her a ring'], correct: 0}
+    { question: 'What is the most popular sport in USA?', answers: ['Football', 'Soccer', 'Baseball'], correct: 0},
+    { question: 'Who is the most famous Pokemon trainer in Pokemon?', answers: ['Ash', 'Goh', 'Ruby'], correct: 0},
 ];
 //Questions Index
 let index = 0;
@@ -23,7 +24,7 @@ let wrong = 0;
 //Set starting page
 let initialQuestion = document.createElement('p');
 let btnStart = document.createElement('button');
-initialQuestion.textContent = 'Click Start if you would like to play!';
+initialQuestion.textContent = 'Click Start to play!';
 btnStart.textContent = 'Start';
 questionContainer.append(initialQuestion, btnStart);
 
@@ -48,11 +49,34 @@ function newQuestion() {
         feedbackContainer.textContent = '';
         let pFeedbackEl1 = document.createElement('p');
         let pFeedbackEl2 = document.createElement('p');
-        feedbackContainer.append(pFeedbackEl1, pFeedbackEl2);
+        let pFeedbackEl3 = document.createElement('p');
+        feedbackContainer.append(pFeedbackEl1, pFeedbackEl2, pFeedbackEl3);
         pFeedbackEl1.textContent = `Here are your stats:`;
-        pFeedbackEl2.textContent = `Correct: ${correct} | Wrong: ${wrong}`;
+        pFeedbackEl2.textContent = `Correct: ${correct}`;
+        pFeedbackEl3.textContent = `Wrong: ${wrong}`;
     };
 };
+
+//Check user's answer
+answersContainer.addEventListener('click', (event) => {
+    if (event.target.tagName === 'BUTTON') {
+        const selectedAnswer = event.target.textContent;
+        const correctAnswer = questions[index].answers[questions[index].correct];
+        if (selectedAnswer === correctAnswer){
+            correct++;
+            feedbackContainer.textContent = 'Correct!';
+        } else {
+            wrong++;
+            feedbackContainer.textContent = 'Wrong';
+        }
+        //Increment index after checking answer
+        index++;
+        //Set new question after checking answer
+        setTimeout(() => {
+            newQuestion();
+        }, 1000);
+    }
+});
 
 //Event listener to start game
 btnStart.addEventListener('click', 
@@ -65,40 +89,5 @@ btnStart.addEventListener('click',
 
         //Run helper function to display new question
         newQuestion();
-
-        //Check user's answer
-        answersContainer.addEventListener('click', (event) => {
-            index++;
-            if (questionContainer.textContent === 'What is the capital of France?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Paris') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'Which language runs in the browser?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'JavaScript') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'What is 2 + 2?' && event.target.tagName === 'BUTTON' && event.target.textContent === '4') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'What is 5 x 5?' && event.target.tagName === 'BUTTON' && event.target.textContent === '25') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'Which pokemon is yellow and most famous?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Pikachu') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'Which ice skates have a toe pick in front?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'Figure Skates') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            } else if (questionContainer.textContent === 'How did the cell phone ask his girlfriend to marry him?' && event.target.tagName === 'BUTTON' && event.target.textContent === 'He gave her a ring') {
-                correct++;
-                feedbackContainer.textContent = 'Correct!';
-            }
-            else {
-                wrong++;
-                feedbackContainer.textContent = 'Wrong';
-            }
-            //Set new question after checking answer
-            setTimeout(() => {
-                newQuestion();
-            }, 1000);
-        });
     }
 );
